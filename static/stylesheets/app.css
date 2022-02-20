@@ -1,0 +1,53 @@
+#user-form {
+  margin-top: 10px;
+  border: 10px red;
+}
+
+.join-message {
+  color: rgba(51, 117, 222, 0.704);
+  font-size: 38px;
+}
+
+.form-control-sm {
+  width: 50px;
+}
+
+.form-control {
+  margin-bottom: 20px;
+}
+
+.btn {
+  border-radius: 50px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+#search.form-control + .btn {
+  position: absolute;
+  right: 9px;
+  top: 2px;
+  bottom: 4px;
+  z-index: 1;
+  padding: 0;
+  color: green;
+}
+
+* {
+  background-color: #b2bde9d6;
+}
+
+#fa-whiskey-glass {
+  color: rgba(231, 231, 4, 0.998);
+}
+
+.display-2 {
+  color: rgba(249, 249, 116, 0.978) w;
+}
+
+@media (max-width: 468px) {
+  nav form.navbar-form {
+    display: none;
+  }
+}

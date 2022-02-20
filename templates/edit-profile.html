@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Tell us more about you!</h1>
+<h2>Edit Profile Below</h2>
+<br />
+<div class="row justify-content-sm-center card">
+  <form method="POST" class="form-control-md card-body">
+    {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
+    'hidden' and field.name != 'password' %} {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %} {{ field(placeholder=field.label.text, class="form-control") }}
+    {% endfor %}
+
+    <p class="card-text">To confirm changes, please enter your password:</p>
+    {% if form.password.errors %} {% for error in form.password.errors %}
+    <span class="text-danger"> {{ error }} </span>
+    {% endfor %} {% endif %} {{ form.password(placeholder="Enter your password",
+    class="form-control") }}
+
+    <div class="edit-btn-area">
+      <button class="btn btn-success">Edit user!</button>
+      <a href="/users/{{ user_id }}" class="btn btn-outline-secondary"
+        >Cancel</a
+      >
+    </div>
+  </form>
+</div>
+{% endblock %}

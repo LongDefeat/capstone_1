@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block body_class %}onboarding{% endblock %} {%
+block content %}
+
+<div class="row justify-content-md-center">
+  <h2 class="join-message">Join Us!</h2>
+  <br />
+  <h3 class="join-message">
+    ...and start making the best cocktails in the neighborhood!
+  </h3>
+  <div class="col-md-10 col-lg-5">
+    <form method="POST" id="user_form">
+      {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
+      'hidden' %} {% for error in field.errors %}
+      <span class="text-danger">{{ error }}</span>
+      {% endfor %} {{ field(placeholder=field.label.text, class="form-control")
+      }} {% endfor %}
+      <br />
+      <button id="sign-up" class="btn btn-primary btn-lg btn-block">
+        Sign me up!
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

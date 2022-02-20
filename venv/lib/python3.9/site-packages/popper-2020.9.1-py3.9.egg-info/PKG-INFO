@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: popper
+Version: 2020.9.1
+Summary: Popper CLI tool to generate reproducible papers.
+Home-page: https://getpopper.io
+Author: The Popper Development Team
+Author-email: ivotron@ucsc.edu
+License: MIT
+Project-URL: Documentation, https://popper.readthedocs.io
+Project-URL: Source, https://github.com/getpopper/popper/
+Project-URL: Tracker, https://github.com/getpopper/popper/issues
+Description: UNKNOWN
+Keywords: popper reproducibility automation continuous-integration
+Platform: UNKNOWN
+Provides-Extra: dev

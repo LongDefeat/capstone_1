@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block content %}
+<div class="row">
+  {% if g.user %}
+  <h1 class="col-sm-8">Hey, {{g.user.first_name}}! I am the home page.</h1>
+  <h5><a href="/search" width="50px">Find your new favorite recipe!</a></h5>
+  {% endif %}
+</div>
+
+{% endblock %}
