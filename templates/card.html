@@ -13,49 +13,43 @@
   
 {% for drink in drinks %}
 
-<div class=" text-center container">
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    <div class="col">
-      <div class="card">
-        <img class="card-img-top img-thumbnail"src="{{drink.image}}">
-        <div class="card-body">
-          <h5 class="card-title">{{drink.name}}</h5>
-          <p class="card-text">
-            <strong>Ingredients Needed:</strong>{{drink.ingredients}}
-          </p>
-          <p class="card-text">
-          <strong> Mixing Instructions:</strong> {{drink.instructions}}
-          </p>
-          <div>
-            {% if user_id == g.user_id %}
-            <form
-            method="POST"
-            action="/search/{{drink.name.lower()}}/favorite"
-            class="favorite-drink"
-          >
-            <button style="margin-bottom: 10px"
-              id="fa-whiskey-glass"
-              class="
-                          btn 
-                          btn-md 
-                          btn-primary"
-            >
-            <i class="fas fa-glass-whiskey"></i>
-            <span>Save this recipe!</span>
-              
-            {% endif %}
-            </button>
-          </form>
-          </div>
-        </div>
-      </div>
-    </div>
-   </div>
-</div>
-  
+<div class="row text-left" style="width: 20rem">
 
-   
+  <ul class="list-group list-group-flushstyle" style="margin: 15px">
+    <li class="col-md-6 text-left list-unstyled">
+      <img class="card-img-top img-thumbnail"src="{{drink.image}}" style="width: 250px">
+      <br>
+      
+      <p><strong>{{drink.name}}</strong></p>
+      <div class="card-body">
+      <li class="col-md-6 text-left  list-unstyled row">
+        Ingredients Needed: {{drink.ingredients}}
+      </li>
+      <br>
+      <p class="col-md-6 text-left ">Instructions: {{drink.instructions}}</p>
+      <br>
+    </li>
+
+    {% if user_id == g.user_id %}
+    <form
+      method="POST"
+      action="/search/{{drink.name.lower()}}/favorite"
+      class="favorite-drink"
+    >
+      <button style="margin-bottom: 10px"
+        id="fa-whiskey-glass"
+        class="
+                    btn 
+                    btn-md 
+                    {{'btn-primary'}}"
+      >
+      <i class="fas fa-glass-whiskey"></i>
+      <span>Save this recipe!</span>
+      </button>
+</div>
+    </form>
   
+{% endif%}   
     
     {% endfor %}
     
@@ -66,7 +60,7 @@
     
     {% endif %} {% endblock %}</div>
 
-<div class="container">
+    <div class="container">
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     <div class="col">
       <div class="card">
