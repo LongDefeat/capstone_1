@@ -152,10 +152,6 @@ def search():
 
     if request.method == 'POST':
         drinks = JSON_converter().search(form.search.data)
-        # response = app.response_class(
-        #     response=json.dumps(res),
-        #     mimetype='application/json'
-        #     )
         return redirect(f'search/{form.search.data}')
         
     return render_template('search.html', form=form, drinks=drinks)

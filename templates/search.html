@@ -18,12 +18,12 @@
     <div class="col">
       <div class="card">
         <img class="card-img-top img-thumbnail"src="{{drink.image}}">
-        <div class="card-body">
-          <h5 class="card-title">{{drink.name}}</h5>
-          <p class="card-text">
+        <div class="card-body justify-content-center">
+          <h5 class="card-title"><em>{{drink.name}}</em></h5>
+          <p class="card-text align-items-center">
             <strong>Ingredients Needed:</strong>{{drink.ingredients}}
           </p>
-          <p class="card-text">
+          <p class="card-text align-items-center">
           <strong> Mixing Instructions:</strong> {{drink.instructions}}
           </p>
           <div>
@@ -48,6 +48,7 @@
           </form>
           </div>
         </div>
+        </div>
       </div>
     </div>
    </div>
@@ -65,48 +66,3 @@
     
     
     {% endif %} {% endblock %}</div>
-
-<div class="container">
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    <div class="col">
-      <div class="card">
-        <div class="card-image-wrapper">
-          <img src="https://via.placeholder.com/450x150/FFFFFF" class="card-img-top img-fluid" alt="...">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="col">
-      <div class="card">
-        <div class="card-image-wrapper">
-          <img src="https://via.placeholder.com/1920x1080/FFFFFF" class="card-img-top img-fluid" alt="...">
-        </div>
-        
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="col">
-      <div class="card">
-        <div class="card-image-wrapper">
-          <img src="https://via.placeholder.com/350x800/FFFFFF" class="card-img-top img-fluid" alt="...">
-        </div>
-        
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
