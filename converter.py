@@ -2,7 +2,7 @@ import requests
 import json
 
 # rename cocktail_api and other function names
-class JSON_converter:
+class cocktail_api:
 
     cocktail = {}
 

@@ -9,7 +9,7 @@ from sqlalchemy.exc import IntegrityError
 
 from models import db, connect_db, User, Favorite, Cocktail
 from forms import EditProfileForm, UserAddForm, LoginForm, SearchDrink
-from converter import JSON_converter
+from converter import cocktail_api
 
 CURR_USER_KEY = "curr_user"
 
@@ -173,7 +173,7 @@ def search():
     drinks = {}
 
     if request.method == 'POST':
-        drinks = JSON_converter().search(form.search.data)
+        drinks = cocktail_api().search(form.search.data)
         return redirect(f'search/{form.search.data}')
         
     return render_template('search.html', form=form, drinks=drinks)
@@ -188,7 +188,7 @@ def show_drink(drink):
     form = SearchDrink()
     res = requests.get(f"https://www.thecocktaildb.com/api/json/v1/1/search.php?s={drink}")   
     
-    converter = JSON_converter()
+    converter = cocktail_api()
     drink_response = converter.search(drink)
     drinks = converter.convert(drink_response)
     cocktail=drinks
