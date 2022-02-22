@@ -13,7 +13,7 @@
   
 {% for drink in drinks %}
 
-<div class=" text-center container">
+<div class="text-center container">
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     <div class="col">
       <div class="card">
@@ -21,8 +21,13 @@
         <div class="card-body justify-content-center">
           <h5 class="card-title"><em>{{drink.name}}</em></h5>
           <p class="card-text align-items-center">
-            <strong>Ingredients Needed:</strong>{{drink.ingredients}}
+            <strong>Ingredients Needed:</strong>
           </p>
+          <ul>
+            {% for ingredient in drink.ingredients %}
+              <li class="list-unstyled">{{ingredient}}</li>
+            {% endfor %}
+          </ul>
           <p class="card-text align-items-center">
           <strong> Mixing Instructions:</strong> {{drink.instructions}}
           </p>
@@ -30,7 +35,7 @@
             {% if user_id == g.user_id %}
             <form
             method="POST"
-            action="/search/{{drink.name.lower()}}/favorite"
+            action="/search/{{drink.id}}/favorite"
             class="favorite-drink"
           >
             <button style="margin-bottom: 10px"

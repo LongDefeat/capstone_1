@@ -1,11 +1,13 @@
 import requests
 import json
 
+# rename cocktail_api and other function names
 class JSON_converter:
 
     cocktail = {}
 
     url = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="
+
 
     def search(self, term):
         response = requests.get(f'{self.url}{term}')

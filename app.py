@@ -1,9 +1,9 @@
 from crypt import methods
-from flask import Flask, render_template, request, flash, redirect, session, g, abort, json
+from flask import Flask, render_template, request, flash, redirect, session, g, abort
 from flask_bootstrap import Bootstrap
 import os
 import requests
-# import json
+import json
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
@@ -64,6 +64,21 @@ def do_logout():
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
+
+def save_drink(drink_id):
+    url = f"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={drink_id}"
+
+    response = requests.get(url)
+
+    drink_json = response.json()
+    drinks_json = drink_json['drinks']
+    drink_obj = drinks_json[0]
+
+    print(drink_obj)
+    # converts obj to json/string
+    drink = Cocktail.add_drink(drink_id, json.dumps(drink_obj))
+
+    return drink
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -134,6 +149,13 @@ def edit_profile():
         return redirect('/')
     
     return render_template('/edit-profile.html', user=g.user, form=form)
+
+@app.route('/profile', methods=['GET', 'POST'])
+def show_profile():
+    if not g.user:
+            return redirect('/')
+
+    return render_template('/profile.html')
     
 
 # ==================Drink Searches==================
@@ -191,31 +213,33 @@ def show_drink(drink):
 
 
 
-
-@app.route('/search/<drink>/favorite', methods=['GET', 'POST'])
-def add_favorite(drink):
+@app.route('/search/<int:drink_id>/favorite', methods=['POST'])
+def add_favorite(drink_id):
     # list out g.user.favorites
     # can then click a favorite cocktail to get to next route for fav_id
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
+
+    save_drink(drink_id)   
     
-    favorite_drink = SearchDrink.query.get(drink)
+    # if request.method == 'POST':
+    #     if request.form['submit'] == 'Do Something':
+    #         pass # do something
+
+    user_id = g.user.id
+    drink = drink_id
+    print('XXXXXXXXXXXXXXXXXXX')
+    print(user_id)
+    print(drink)
+
+    # favorite_drink = SearchDrink.data
     
-    user_favorite = g.user.favorite
+    
+    Favorite.save_drink(user_id, drink)
+    flash("Added Favorite.", "success")
 
-    if favorite_drink.user_id == g.user.id:
-        return abort(403)
-
-    if favorite_drink in user_favorite:
-        g.user.favorite = [favorite for favorite in user_favorite if favorite_drink != favorite]
-    else:
-        g.user.favorite.append(favorite_drink)
-
-    db.add(favorite_drink)
-    db.session.commit()
-
-    return redirect("/")
+    return redirect("/search")
 
 
 

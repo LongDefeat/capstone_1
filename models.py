@@ -115,6 +115,16 @@ class Favorite(db.Model):
         nullable=False,
     )
 
+    @classmethod
+    def save_drink(cls, user_id, drink_id):
+        drink = Favorite(
+            user_id=user_id,
+            drink_id = drink_id
+        )
+        db.session.add(drink)
+        db.session.commit()
+        return drink
+
 class Cocktail(db.Model):
     """Searched Cocktails"""
     __tablename__ = 'cocktails'
@@ -125,31 +135,30 @@ class Cocktail(db.Model):
                 nullable=False,
     )
 
-    user_id=db.Column(
-                db.Integer, 
-                primary_key=True,
-                nullable=False,
-    )
-
     drink_id = db.Column(
                 db.Integer, 
                 primary_key=True,
                 nullable=False,
     )
+    cocktail_data = db.Column(
+                    db.Text,
+    )
+
     def __repr__(self):
         return f"<User #{self.id}: {self.user_id}, {self.drink_id}>"
 
     @classmethod
-    def add_drink(cls, user_id, drink_id):
+    def add_drink(cls, drink_id, cocktail_data):
         """Add Cocktail to DB.
         """
 
         cocktail = Cocktail(
-            user_id=user_id,
             drink_id=drink_id,
+            cocktail_data=cocktail_data,
         )
 
         db.session.add(cocktail)
+        db.session.commit()
         return cocktail
 
 

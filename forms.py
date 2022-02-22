@@ -36,3 +36,6 @@ class SearchDrink(FlaskForm):
     """Form to search for a drink."""
 
     search = StringField('Search')
+
+class Favorite(FlaskForm):
+    """Favorite a drink."""
