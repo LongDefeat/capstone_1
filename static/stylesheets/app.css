@@ -1,5 +1,5 @@
 body {
-  background-color: #ffe4b5;
+  background-color: #e2cba4;
 }
 
 #user-form {
@@ -8,7 +8,7 @@ body {
 }
 
 nav {
-  background-color: mintcream;
+  background-color: rgb(195, 117, 62);
 }
 
 .card {
@@ -52,10 +52,14 @@ nav {
   margin: auto;
 }
 .card {
-  max-width: 380px;
+  max-width: 500px;
   margin: 0 auto;
   float: none;
   margin-bottom: 10px;
+}
+
+.profile-card {
+  width: 300px;
 }
 
 #fa-whiskey-glass {

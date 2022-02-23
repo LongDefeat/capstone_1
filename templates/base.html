@@ -34,8 +34,8 @@
           <li><a href="/login">Log in</a></li>
           {% else %}
           <li style="padding-right: 10px">
-            <a href="/users/{{ g.user.id }}">
-              <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}" />
+            <a href="/profile/{{ g.user.id }}">
+              <img class="fas fa-glass-whiskey" alt="{{ g.user.username }}" />
             </a>
           </li>
           <li style="padding-left: 5px"><a href="/logout">Log out</a></li>

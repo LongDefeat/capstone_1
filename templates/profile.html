@@ -15,17 +15,24 @@
         <li class="card-text list-unstyled">Bio: {{g.user.bio}}</li>
     <a href="favorite.html" style="margin-top: 20px;">View Favorite recipes</a>
     <div class="edit-btn-area">
+        <a href="edit-profile.html"></a>
         <button class="btn btn-success text-right" style="margin-top: 20px;">Edit user!</button>
-        <a href="/edit-profile/{{ user_id }}"></a>
     </div>
+    <br>
   </div>
 </div>
 
-<div>
-    {% for favorite in g.user.favorites %}
-    <p>{{favorite.drink_id}}</p>
+
+<div class="profile-card card text-left container-fluid">
+    <h5 class="card-title display-8 text-center">Favorite Recipes</h5>
+        <ul class="list-group">
+        {% for favorite in g.user.favorites %}
+            <li class="card-text list-unstyled">{{favorite.drink_id}}</li>
+        </ul>   
     {% endfor %}
 </div>
+
+
 
 
 {% endif %} {% endblock %}

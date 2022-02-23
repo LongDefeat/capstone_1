@@ -54,7 +54,7 @@ class User(db.Model):
         return f"<User #{self.id}: {self.username}, {self.email}>"
 
     @classmethod
-    def signup(cls, username, email, password, first_name, last_name):
+    def signup(cls, username, email, password, first_name, last_name, bio):
         """Sign up user.
 
         Hashes password and adds user to system.
@@ -67,7 +67,8 @@ class User(db.Model):
             email=email,
             password=hashed_pwd,
             first_name=first_name,
-            last_name=last_name
+            last_name=last_name,
+            bio=bio
         )
 
         db.session.add(user)
@@ -141,6 +142,10 @@ class Cocktail(db.Model):
                 nullable=False,
     )
     cocktail_data = db.Column(
+                    db.Text,
+    )
+
+    drink_name = db.Column(
                     db.Text,
     )
 

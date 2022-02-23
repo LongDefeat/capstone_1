@@ -140,24 +140,44 @@ def logout():
     return redirect("/login")
 
 
-@app.route('/edit-profile', methods=['GET','POST'])
-def edit_profile():
+@app.route('/edit-profile/<int:user>', methods=['GET','POST'])
+def edit_profile(user):
 
     form = EditProfileForm()
+    user = g.user.id
 
     if not g.user:
         return redirect('/')
-    
-    return render_template('/edit-profile.html', user=g.user, form=form)
 
-@app.route('/profile', methods=['GET', 'POST'])
-def show_profile():
+    if form.validate_on_submit():
+        try:
+            user = User.signup(
+                username=form.username.data,
+                password=form.password.data,
+                first_name=form.firstname.data,
+                last_name=form.lastname.data,
+                email=form.email.data,
+                bio=form.bio.data,
+            )
+        except IntegrityError:
+            flash('Failed to update. Please try again.', 'danger')
+
+            db.session.commit()
+            flash('Profiled updated :)', 'success')
+
+    return render_template('edit-profile.html', user=user, form=form)
+
+
+@app.route('/profile/<int:user>', methods=['GET'])
+def show_profile(user):
     if not g.user:
             return redirect('/')
 
-    return render_template('/profile.html')
-    
+    user = g.user.id
 
+
+    return render_template('profile.html', user=user)
+    
 # ==================Drink Searches==================
 
 
@@ -191,7 +211,7 @@ def show_drink(drink):
     converter = cocktail_api()
     drink_response = converter.search(drink)
     drinks = converter.convert(drink_response)
-    cocktail=drinks
+    cocktail = drinks
     if form.validate_on_submit():
         return redirect(f"/search/{drinks}")
 
@@ -200,8 +220,7 @@ def show_drink(drink):
             cocktail = drinks 
             Cocktail.add_drink(
             drink_id = drinks.id,
-            user_id = g.user.index
-            )
+            user_id = g.user.index            )
             db.session.commit()
 
         except IntegrityError:
@@ -216,16 +235,11 @@ def show_drink(drink):
 @app.route('/search/<int:drink_id>/favorite', methods=['POST'])
 def add_favorite(drink_id):
     # list out g.user.favorites
-    # can then click a favorite cocktail to get to next route for fav_id
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
     save_drink(drink_id)   
-    
-    # if request.method == 'POST':
-    #     if request.form['submit'] == 'Do Something':
-    #         pass # do something
 
     user_id = g.user.id
     drink = drink_id
@@ -240,7 +254,6 @@ def add_favorite(drink_id):
     flash("Added Favorite.", "success")
 
     return redirect("/search")
-
 
 
 # app.route('/favorite/<fav_id>, methods=['GET'])
