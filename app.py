@@ -73,10 +73,11 @@ def save_drink(drink_id):
     drink_json = response.json()
     drinks_json = drink_json['drinks']
     drink_obj = drinks_json[0]
+    drink_name = drink_obj['strDrink']
 
     print(drink_obj)
     # converts obj to json/string
-    drink = Cocktail.add_drink(drink_id, json.dumps(drink_obj))
+    drink = Cocktail.add_drink(drink_id, drink_name, json.dumps(drink_obj))
 
     return drink
 
@@ -206,7 +207,7 @@ def show_drink(drink):
         return redirect("/")
 
     form = SearchDrink()
-    res = requests.get(f"https://www.thecocktaildb.com/api/json/v1/1/search.php?s={drink}")   
+      
     
     converter = cocktail_api()
     drink_response = converter.search(drink)
@@ -220,8 +221,10 @@ def show_drink(drink):
             cocktail = drinks 
             Cocktail.add_drink(
             drink_id = drinks.id,
-            user_id = g.user.index            )
+            user_id = g.user.index,
+            drink_name=drinks.name            )
             db.session.commit()
+
 
         except IntegrityError:
             flash('Cocktail not found. Please try another one.', 'danger')
@@ -243,9 +246,13 @@ def add_favorite(drink_id):
 
     user_id = g.user.id
     drink = drink_id
+    
+
+    
     print('XXXXXXXXXXXXXXXXXXX')
     print(user_id)
     print(drink)
+   
 
     # favorite_drink = SearchDrink.data
     

@@ -32,7 +32,10 @@ class cocktail_api:
                     measures.append(drink[f'strMeasure{i}'])
             
             for index, val in enumerate(ingredients):
-                combined.append(f'{measures[index]} {ingredients[index]}')
+                if index >= len(measures):
+                    combined.append(f'{ingredients[index]}')
+                else:
+                    combined.append(f'{measures[index]} {ingredients[index]}')
 
             out.append({'name': drink['strDrink'], 'id': drink['idDrink'], 'image': drink['strDrinkThumb'], 'instructions': drink['strInstructions'], 'ingredients': combined})
 

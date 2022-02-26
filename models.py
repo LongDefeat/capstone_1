@@ -115,12 +115,17 @@ class Favorite(db.Model):
         db.Integer, 
         nullable=False,
     )
+    
+    drink_name = db.Column(
+        db.String,
+        nullable=False,
+    )
 
     @classmethod
     def save_drink(cls, user_id, drink_id):
         drink = Favorite(
             user_id=user_id,
-            drink_id = drink_id
+            drink_id = drink_id,
         )
         db.session.add(drink)
         db.session.commit()
@@ -141,11 +146,11 @@ class Cocktail(db.Model):
                 primary_key=True,
                 nullable=False,
     )
-    cocktail_data = db.Column(
-                    db.Text,
-    )
-
     drink_name = db.Column(
+                db.String,
+                nullable=False)
+
+    cocktail_data = db.Column(
                     db.Text,
     )
 
@@ -153,13 +158,14 @@ class Cocktail(db.Model):
         return f"<User #{self.id}: {self.user_id}, {self.drink_id}>"
 
     @classmethod
-    def add_drink(cls, drink_id, cocktail_data):
+    def add_drink(cls, drink_id, drink_name, cocktail_data):
         """Add Cocktail to DB.
         """
 
         cocktail = Cocktail(
             drink_id=drink_id,
-            cocktail_data=cocktail_data,
+            drink_name=drink_name,
+            cocktail_data=cocktail_data         
         )
 
         db.session.add(cocktail)

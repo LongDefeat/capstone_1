@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 
-<h2 class="display-2">{{g.user.first_name}}'s profile page</h2>
+<h2 class="display-2 text-dark">{{g.user.first_name}}'s Profile</h2>
 <!-- <h4 class="display-6">View your saved recipes <a href="favorite.html">here!</a></h4> -->
 
 {% if user_id == g.user_id %}
@@ -13,7 +13,7 @@
     <ul class="list-group list-group-flush">
         <li class="card-text list-unstyled">Username: {{g.user.username}}</li>
         <li class="card-text list-unstyled">Bio: {{g.user.bio}}</li>
-    <a href="favorite.html" style="margin-top: 20px;">View Favorite recipes</a>
+        <!-- <a href="favorite.html" style="margin-top: 20px;">View Favorite recipes</a> -->
     <div class="edit-btn-area">
         <a href="edit-profile.html"></a>
         <button class="btn btn-success text-right" style="margin-top: 20px;">Edit user!</button>
