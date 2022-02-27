@@ -35,7 +35,9 @@
           {% else %}
           <li style="padding-right: 10px">
             <a class="text-white" href="/profile/{{ g.user.id }}">
-              <img class="fas fa-glass-whiskey" alt="{{ g.user.username }}" />
+              <div class="fas fa-glass-whiskey" alt="{{ g.user.username }}">
+                {{ g.user.username }}
+              </div>
             </a>
           </li>
           <li style="padding-left: 5px">

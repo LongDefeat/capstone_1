@@ -1,36 +1,38 @@
 {% extends 'base.html' %} {% block content %}
-<div>
-  <h1 class="display-2">Find your new favorite cocktail...</h1>
-  <form method="POST" id="user_form" style="width: 18rem" action="/search">
-    <input type="text" name="search" />
-    <div class="btn">
-      <button>Search</button>
-    </div>
-  </form>
-</div>
+
+<h1 class="display-2">Find your new favorite cocktail...</h1>
+  <div>
+    <form method="POST" id="user_form" style="width: 500px" action="/search">
+      <input type="text" name="search" />
+      <div class="btn">
+        <button>Search</button>
+      </div>
+    </form>
+  </div>
 {% if drinks %}
   
   
 {% for drink in drinks %}
 
-<div class="text-center container">
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+<div class="text-center container" style="width:500px">
+  <div class="row-lg-6 mb-4">
     <div class="col">
       <div class="card">
         <img class="card-img-top img-thumbnail"src="{{drink.image}}">
-        <div class="card-body justify-content-center">
+        <div class="card-body">
           <h5 class="card-title"><em>{{drink.name}}</em></h5>
-          <p class="card-text align-items-center">
-            <strong>Ingredients Needed:</strong>
-          </p>
-          <ul>
-            {% for ingredient in drink.ingredients %}
-              <li class="list-unstyled">{{ingredient}}</li>
-            {% endfor %}
-          </ul>
-          <p class="card-text align-items-center">
-          <strong> Mixing Instructions:</strong> {{drink.instructions}}
-          </p>
+            <p class="card-text align-items-center">
+              <strong>Ingredients Needed:</strong>
+                <ul>
+                  {% for ingredient in drink.ingredients %}
+                    <li class="list-unstyled">{{ingredient}}</li>
+                  {% endfor %}
+                </ul>
+            </p>
+          
+            <p class="card-text align-items-left">
+            <strong> Mixing Instructions:</strong> {{drink.instructions}}
+            </p>
           <div>
             {% if user_id == g.user_id %}
             <form
@@ -38,19 +40,19 @@
             action="/search/{{drink.id}}/favorite"
             class="favorite-drink"
           >
-            <button style="margin: 10px"
-              id="fa-whiskey-glass"
-              class="
-                          btn 
-                          btn-md 
-                          btn-primary"
-            >
-            <i class="fas fa-glass-whiskey"></i>
-            <span>Save this recipe!</span>
-              
-            {% endif %}
-            </button>
-          </form>
+              <button style="margin: 10px"
+                id="fa-whiskey-glass"
+                class="
+                            btn 
+                            btn-md 
+                            btn-primary"
+              >
+              <i class="fas fa-glass-whiskey"></i>
+              <span>Save this recipe!</span>
+                
+              {% endif %}
+              </button>
+            </form>
           </div>
         </div>
         </div>
