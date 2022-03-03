@@ -112,20 +112,22 @@ class Favorite(db.Model):
     )
 
     drink_id = db.Column(
-        db.Integer, 
+        db.Integer,
+        db.ForeignKey('cocktails.id'),
         nullable=False,
     )
     
-    drink_name = db.Column(
-        db.String,
-        nullable=False,
-    )
+    # drink = db.relationship('Cocktail', backref="favorites")
+
 
     @classmethod
     def save_drink(cls, user_id, drink_id):
+
+        cocktail = Cocktail.query.filter_by(drink_id=drink_id).first()
+
         drink = Favorite(
             user_id=user_id,
-            drink_id = drink_id,
+            drink_id = cocktail.id,
         )
         db.session.add(drink)
         db.session.commit()
@@ -143,7 +145,6 @@ class Cocktail(db.Model):
 
     drink_id = db.Column(
                 db.Integer, 
-                primary_key=True,
                 nullable=False,
     )
     drink_name = db.Column(

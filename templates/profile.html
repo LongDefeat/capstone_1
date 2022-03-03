@@ -5,7 +5,7 @@
 
 {% if user_id == g.user_id %}
 
-<div class="profile-card card text-left container-fluid">
+<div class="profile-card card text-left container">
   <div>
     <img class="card-img-top"src="/static/imgs/cocktail.jpg" alt="cocktail-cartoon" style="width: 5rem">
     <h5 class="card-title display-5">{{g.user.username}}</h5>
@@ -16,7 +16,7 @@
         <!-- <a href="favorite.html" style="margin-top: 20px;">View Favorite recipes</a> -->
     <div class="edit-btn-area">
         <a href="edit-profile.html"></a>
-        <button class="btn btn-success text-right" style="margin-top: 20px;">Edit user!</button>
+        <button class="btn btn-success text-right" style="margin-top: 20px;"  action="edit-profile/<int:g.user.id>">Edit user!</button>
     </div>
     <br>
   </div>
@@ -27,7 +27,7 @@
     <h5 class="card-title display-8 text-center">Favorite Recipes</h5>
         <ul class="list-group">
         {% for favorite in g.user.favorites %}
-            <li class="card-text list-unstyled">{{favorite.drink_id}}</li>
+            <li class="card-text list-unstyled">{{favorite.id}}</li>
         </ul>   
     {% endfor %}
 </div>

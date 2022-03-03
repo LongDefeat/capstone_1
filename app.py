@@ -75,7 +75,6 @@ def save_drink(drink_id):
     drink_obj = drinks_json[0]
     drink_name = drink_obj['strDrink']
 
-    print(drink_obj)
     # converts obj to json/string
     drink = Cocktail.add_drink(drink_id, drink_name, json.dumps(drink_obj))
 
@@ -97,6 +96,7 @@ def signup():
                 first_name=form.firstname.data,
                 last_name=form.lastname.data,
                 email=form.email.data,
+                bio = ""
             )
             db.session.commit()
 
@@ -244,17 +244,17 @@ def add_favorite(drink_id):
 
     save_drink(drink_id)   
 
+    rows = Favorite.query.join(Cocktail, Favorite.drink_id == Cocktail.id).add_columns(Cocktail.drink_name).filter(Favorite.user_id == g.user.id).filter(Cocktail.drink_id == drink_id).all()
+
+    if len(rows) > 0:
+        drink_name = rows[0][1]
+        flash("Drink already added.", "danger")
+        return redirect(f'search/{drink_name}')
+
     user_id = g.user.id
     drink = drink_id
     
-
-    
-    print('XXXXXXXXXXXXXXXXXXX')
-    print(user_id)
-    print(drink)
    
-
-    # favorite_drink = SearchDrink.data
     
     
     Favorite.save_drink(user_id, drink)
