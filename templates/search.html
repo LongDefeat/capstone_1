@@ -34,7 +34,7 @@
             <strong> Mixing Instructions:</strong> {{drink.instructions}}
             </p>
           <div>
-            {% if user_id == g.user_id %}
+            {% if not drink.is_favorite %}
             <form
             method="POST"
             action="/search/{{drink.id}}/favorite"
@@ -50,9 +50,10 @@
               <i class="fas fa-glass-whiskey"></i>
               <span>Save this recipe!</span>
                 
-              {% endif %}
               </button>
             </form>
+            {% endif %}
+
           </div>
         </div>
         </div>

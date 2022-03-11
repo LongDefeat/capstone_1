@@ -116,7 +116,7 @@ class Favorite(db.Model):
         nullable=False,
     )
     
-    # drink = db.relationship('Cocktail', backref="favorites")
+    drink = db.relationship('Cocktail', backref="favorites")
 
 
     @classmethod
@@ -149,29 +149,45 @@ class Cocktail(db.Model):
     drink_name = db.Column(
                 db.String,
                 nullable=False)
-
-    cocktail_data = db.Column(
-                    db.Text,
-    )
+    
 
     def __repr__(self):
         return f"<User #{self.id}: {self.user_id}, {self.drink_id}>"
 
     @classmethod
-    def add_drink(cls, drink_id, drink_name, cocktail_data):
+    def add_drink(cls, drink_id, drink_name):
         """Add Cocktail to DB.
         """
 
         cocktail = Cocktail(
             drink_id=drink_id,
             drink_name=drink_name,
-            cocktail_data=cocktail_data         
         )
 
         db.session.add(cocktail)
         db.session.commit()
         return cocktail
 
+class Drink_and_Measurement(db.Model):
+    """Cocktail Instructions and Measurements"""
+    __tablename__ = 'instructions_measurements'
+
+    id=db.Column(
+                db.Integer, 
+                primary_key=True,
+                nullable=False,
+    )
+
+    drink_id = db.Column(
+        db.Integer,
+        db.ForeignKey('cocktails.id'),
+        nullable=False,
+    )
+    
+    drink_and_measurement=db.Column(
+                db.String,
+                nullable=False
+    )
 
 def connect_db(app):
     """Connect this database to provided Flask app.

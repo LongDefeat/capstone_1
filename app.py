@@ -7,7 +7,7 @@ import json
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
-from models import db, connect_db, User, Favorite, Cocktail
+from models import Drink_and_Measurement, db, connect_db, User, Favorite, Cocktail
 from forms import EditProfileForm, UserAddForm, LoginForm, SearchDrink
 from converter import cocktail_api
 
@@ -75,8 +75,35 @@ def save_drink(drink_id):
     drink_obj = drinks_json[0]
     drink_name = drink_obj['strDrink']
 
+     
     # converts obj to json/string
-    drink = Cocktail.add_drink(drink_id, drink_name, json.dumps(drink_obj))
+    drink = Cocktail.add_drink(drink_id, drink_name)
+
+    # add combined ingredients/measurements to instructions/measurements table
+
+    ingredients = []
+    measures = []
+    combined = []
+
+    for i in range(1, 15):
+        if drink_obj[f'strIngredient{i}'] != None:
+            ingredients.append(drink_obj[f'strIngredient{i}'])
+
+        if drink_obj[f'strMeasure{i}'] != None:
+            measures.append(drink_obj[f'strMeasure{i}'])
+    
+    for index, val in enumerate(ingredients):
+        if index >= len(measures):
+            combined.append(f'{ingredients[index]}')
+        else:
+            combined.append(f'{measures[index]} {ingredients[index]}')
+    
+    for i in combined:
+        drink_and_measurement = Drink_and_Measurement(drink_and_measurement=i, drink_id=drink.id)
+        db.session.add(drink_and_measurement)
+        db.session.commit()
+
+        
 
     return drink
 
@@ -176,6 +203,8 @@ def show_profile(user):
 
     user = g.user.id
 
+    drink_names = Cocktail.query.filter('drink_name')
+
 
     return render_template('profile.html', user=user)
     
@@ -213,6 +242,12 @@ def show_drink(drink):
     drink_response = converter.search(drink)
     drinks = converter.convert(drink_response)
     cocktail = drinks
+
+    for drink in drinks:
+        rows = Favorite.query.join(Cocktail, Favorite.drink_id == Cocktail.id).add_columns(Cocktail.drink_name).filter(Favorite.user_id == g.user.id).filter(Cocktail.drink_id == drink['id']).all()
+
+        drink['is_favorite'] = len(rows) > 0
+
     if form.validate_on_submit():
         return redirect(f"/search/{drinks}")
 
@@ -253,8 +288,6 @@ def add_favorite(drink_id):
 
     user_id = g.user.id
     drink = drink_id
-    
-   
     
     
     Favorite.save_drink(user_id, drink)

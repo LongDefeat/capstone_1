@@ -12,7 +12,6 @@
 
     <ul class="list-group list-group-flush">
         <li class="card-text list-unstyled">Username: {{g.user.username}}</li>
-        <li class="card-text list-unstyled">Bio: {{g.user.bio}}</li>
         <!-- <a href="favorite.html" style="margin-top: 20px;">View Favorite recipes</a> -->
     <div class="edit-btn-area">
         <a href="edit-profile.html"></a>
@@ -27,7 +26,7 @@
     <h5 class="card-title display-8 text-center">Favorite Recipes</h5>
         <ul class="list-group">
         {% for favorite in g.user.favorites %}
-            <li class="card-text list-unstyled">{{favorite.id}}</li>
+            <li class="card-text list-unstyled">{{favorite.drink.drink_name}}</li>
         </ul>   
     {% endfor %}
 </div>
