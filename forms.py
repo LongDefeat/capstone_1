@@ -1,6 +1,3 @@
-from ast import Str
-from operator import length_hint
-from tokenize import String
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length
@@ -15,7 +12,6 @@ class UserAddForm(FlaskForm):
     lastname = StringField('Last Name', validators=[DataRequired()])
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     
-
 class LoginForm(FlaskForm):
     """Form for user to login."""
 
@@ -36,6 +32,3 @@ class SearchDrink(FlaskForm):
     """Form to search for a drink."""
 
     search = StringField('Search')
-
-class Favorite(FlaskForm):
-    """Favorite a drink."""

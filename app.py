@@ -29,8 +29,6 @@ connect_db(app)
 Bootstrap(app)
 
 
-
-# if a current user is in session, g.user IS that current user. Basically, affirms that this is an active session. 
 @app.before_request
 def add_user_to_g():
     """If we're logged in, add curr user to Flask global."""
@@ -51,8 +49,7 @@ def homepage():
     else:
         return render_template('home-anon.html')
 
-
-# User signup/login/logout
+# ================== User signup/login/logout ===================# 
 
 def do_login(user):
     """Log in user."""
@@ -102,8 +99,6 @@ def save_drink(drink_id):
         drink_and_measurement = Drink_and_Measurement(drink_and_measurement=i, drink_id=drink.id)
         db.session.add(drink_and_measurement)
         db.session.commit()
-
-        
 
     return drink
 
@@ -162,7 +157,6 @@ def login():
 def logout():
     """Handle logout of user."""
 
-    # Need to call the method above in order for it to work
     do_logout()
     flash("You logged out successfully!", 'success')
     return redirect("/login")
@@ -172,10 +166,14 @@ def logout():
 def edit_profile(user):
 
     form = EditProfileForm()
-    user = g.user.id
+    user_id = g.user.id
 
-    if not g.user:
+    if not g.user.id == user_id:
+        flash('You are not authorized to view this content.', 'danger')
         return redirect('/')
+
+    if form.validate_on_submit():
+        update_user()
 
     if form.validate_on_submit():
         try:
@@ -193,7 +191,7 @@ def edit_profile(user):
             db.session.commit()
             flash('Profiled updated :)', 'success')
 
-    return render_template('edit-profile.html', user=user, form=form)
+    return render_template('edit-profile.html', user=user, form=form, user_id=user_id)
 
 
 @app.route('/profile/<int:user>', methods=['GET'])
@@ -206,13 +204,12 @@ def show_profile(user):
     drink_names = Cocktail.query.filter('drink_name')
 
 
-    return render_template('profile.html', user=user)
+    return render_template('profile.html', user=user, drink_names=drink_names)
     
 # ==================Drink Searches==================
 
 
 @app.route('/search', methods=['GET', 'POST'])
-    # this is where you would search for cocktails and fetch JSON
 def search():
 
     if not g.user:
@@ -237,7 +234,6 @@ def show_drink(drink):
 
     form = SearchDrink()
       
-    
     converter = cocktail_api()
     drink_response = converter.search(drink)
     drinks = converter.convert(drink_response)
@@ -247,9 +243,6 @@ def show_drink(drink):
         rows = Favorite.query.join(Cocktail, Favorite.drink_id == Cocktail.id).add_columns(Cocktail.drink_name).filter(Favorite.user_id == g.user.id).filter(Cocktail.drink_id == drink['id']).all()
 
         drink['is_favorite'] = len(rows) > 0
-
-    if form.validate_on_submit():
-        return redirect(f"/search/{drinks}")
 
     if form.validate_on_submit():
         try:
@@ -272,7 +265,6 @@ def show_drink(drink):
 
 @app.route('/search/<int:drink_id>/favorite', methods=['POST'])
 def add_favorite(drink_id):
-    # list out g.user.favorites
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
@@ -294,7 +286,3 @@ def add_favorite(drink_id):
     flash("Added Favorite.", "success")
 
     return redirect("/search")
-
-
-# app.route('/favorite/<fav_id>, methods=['GET'])
-    # will show a specific favorite recipe

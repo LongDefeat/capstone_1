@@ -75,6 +75,17 @@ class User(db.Model):
         return user
     
     @classmethod
+    def update_user(cls, username, email, first_name, last_name):
+        """Update a user."""
+
+        update_user = User(
+                username=username,
+                email=email,
+                first_name=first_name,
+                last_name=last_name
+        )
+    
+    @classmethod
     def authenticate(cls, username, password):
         """Find user with `username` and `password`.
 
