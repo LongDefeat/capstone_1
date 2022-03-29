@@ -161,7 +161,6 @@ def logout():
     flash("You logged out successfully!", 'success')
     return redirect("/login")
 
-
 @app.route('/edit-profile/<int:user>', methods=['GET','POST'])
 def edit_profile(user):
 
@@ -172,12 +171,18 @@ def edit_profile(user):
         flash('You are not authorized to view this content.', 'danger')
         return redirect('/')
 
-    if form.validate_on_submit():
-        update_user()
+    # update = User.query.get_or_404(user)
+    # print(user)
+    # update.username = request.form['Username']
+    # update.first_name = request.form['First Name']
+    # update.last_name = request.form['Last Name']
+    # update.email = request.form['Email']
+    # update.bio = request.form['Bio']
+
 
     if form.validate_on_submit():
         try:
-            user = User.signup(
+            user = User.update_user(
                 username=form.username.data,
                 password=form.password.data,
                 first_name=form.firstname.data,
@@ -185,11 +190,13 @@ def edit_profile(user):
                 email=form.email.data,
                 bio=form.bio.data,
             )
+            db.session.add(user)
+            db.session.commit()
+            flash('Profiled updated!', 'success')
+
         except IntegrityError:
             flash('Failed to update. Please try again.', 'danger')
-
-            db.session.commit()
-            flash('Profiled updated :)', 'success')
+   
 
     return render_template('edit-profile.html', user=user, form=form, user_id=user_id)
 

@@ -84,7 +84,10 @@ class User(db.Model):
                 first_name=first_name,
                 last_name=last_name
         )
-    
+        db.session.add(update_user)
+        db.session.commit()
+        return update_user
+
     @classmethod
     def authenticate(cls, username, password):
         """Find user with `username` and `password`.

@@ -24,7 +24,8 @@
     <h5 class="card-title display-8 text-center">Favorite Recipes</h5>
         <ul class="list-group">
         {% for favorite in g.user.favorites %}
-            <li class="card-text list-unstyled">{{favorite.drink.drink_name}}</li>
+            <li class="card-text list-unstyled"><a href="/search/{{favorite.drink.drink_name}}">{{favorite.drink.drink_name}}</a>
+            </li>
         </ul>   
     {% endfor %}
 </div>
