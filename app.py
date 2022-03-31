@@ -6,6 +6,7 @@ import requests
 import json
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
+import os
 
 from models import Drink_and_Measurement, db, connect_db, User, Favorite, Cocktail
 from forms import EditProfileForm, UserAddForm, LoginForm, SearchDrink
