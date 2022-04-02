@@ -1,4 +1,4 @@
-from models import db
+from models import db, bcrypt
 from app import app
 
 # Create All Tables
