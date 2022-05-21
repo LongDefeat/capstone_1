@@ -6,6 +6,10 @@ nav {
   background-color: rgb(195, 117, 62);
 }
 
+#cocktail-gif {
+  width: 50px;
+}
+
 .card {
   background-color: #66cdaa;
   width: 300px;

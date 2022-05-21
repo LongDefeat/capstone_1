@@ -23,7 +23,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI').replace('postgres://', 'postgresql://')
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI').replace('postgres://', 'postgresql://')
 
 toolbar = DebugToolbarExtension(app)
 
@@ -51,6 +51,7 @@ def homepage():
     else:
         return render_template('home-anon.html')
 
+
 # ================== User signup/login/logout ===================# 
 
 def do_login(user):
@@ -63,6 +64,11 @@ def do_logout():
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
+
+# def autocomplete():
+#     url = f"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={drink_id}"
+#     response = requests.get(url)
+#     response.
 
 def save_drink(drink_id):
     url = f"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={drink_id}"
@@ -103,6 +109,20 @@ def save_drink(drink_id):
         db.session.commit()
 
     return drink
+
+def dropdown(drinks):
+    url = f"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={drinks}"
+
+    response = requests.get(url)
+    drink_json = response.json()
+    drinks_json = drink_json['drinks']
+    drink_obj = drinks_json[0]
+    print(drink_obj)
+    drink_name = drink_obj['strDrink']
+    print(drink_name)
+
+    return render_template('/search.html')
+    
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

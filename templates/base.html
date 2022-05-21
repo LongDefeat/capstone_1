@@ -24,7 +24,12 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <a href="/search" href="/" class="navbar-brand">
-            <img src="/static/imgs/logo.gif" alt="logo" />
+            <img
+              class="img-fluid"
+              id="cocktail-gif"
+              src="/static/imgs/logo.gif"
+              alt="logo"
+            />
             <span>Cocktail Recipes</span>
           </a>
         </div>
@@ -52,5 +57,6 @@
       <div class="alert alert-{{ category }}">{{ message }}</div>
       {% endfor %} {% block content %} {% endblock %}
     </div>
+    <script src="autofill.js""></script>
   </body>
 </html>

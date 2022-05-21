@@ -1,14 +1,14 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1 class="display-2">Find your new favorite cocktail...</h1>
-  <div>
-    <form method="POST" id="user_form" style="width: 500px" action="/search">
-      <input type="text" name="search" />
-      <div class="btn">
-        <button>Search</button>
-      </div>
-    </form>
-  </div>
+    <h1 class="display-2">Find your new favorite cocktail...</h1>
+    <div>
+      <form method="POST" id="user_form" style="width: 500px" action="/search">
+        <input type="text" name="search" />
+        <div class="btn">
+          <button>Search</button>
+        </div>
+      </form>
+    </div>
 {% if drinks %}
   
   
