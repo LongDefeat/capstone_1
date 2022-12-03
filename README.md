@@ -1,4 +1,4 @@
-# capstone_1
+# capstone_1 - Cocktail DB
 springboard first capstone - Cocktail db
 
 Built with Python, Flask, PostgreSQL, WTForms, and Bcrypt
