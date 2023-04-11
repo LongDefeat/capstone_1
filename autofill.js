@@ -1,39 +1,34 @@
-let searchCocktails = [
-  "bourbon",
-  "margarita",
-  "espresso",
-  "tequila",
-  "whiskey",
-  "amaretto",
-  "vodka",
-  "martini",
-  "manhattan",
-  "old fashion",
-  "sour",
-  "rum",
-  "gin",
-  "lemon",
-];
 
-function autofill(input) {
-  if (input == "") {
-    return [];
-  }
-  let reg = new RegExp(input);
-  return searchCocktails.filter(function (cocktail) {
-    if (cocktail.match(reg)) {
-      return cocktail;
+function autofill(input){
+    if (input == ''){
+        return []
     }
-  });
+    let reg = new RegExp(input)
+    return searchCocktails.filter(function(cocktail){
+        if (cocktail.match(reg)){
+            return cocktail;
+        }
+    })
 }
 
-function showResults(val) {
-  res = document.getElementById("result");
-  res.innerHTML = "";
-  let list = "";
-  let cocktails = autofill(val);
-  for (let i = 0; i < cocktails.length; i++) {
-    list += "<li>" + terms[i] + "</li>";
-  }
-  res.innerHTML = "<ul>" + list + "</ul>";
+function showResults(val){
+    res = document.getElementById("result");
+    res.innerHTML = '';
+    if (val == ''){
+        return; 
+    };
+    let list = '';
+    fetch('/suggest?q=' + val).then(
+        function (res){
+            return res.json();
+        }).then(function (data){
+            for (let i=0; i < data.length; i++){
+                list += '<li>' + data[i] + '</li>'
+            }
+            res.innerHTML = '<ul>'  + list + '</ul>';
+            return true;
+        }).catch(function(err){
+            console.warn('Something went wrong.', err);
+            return false;
+        })
 }
