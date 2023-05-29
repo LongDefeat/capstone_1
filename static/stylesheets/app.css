@@ -1,76 +1,145 @@
+/* Body styles */
 body {
   background-color: #e2cba4;
+  font-family: Arial, sans-serif;
 }
 
+/* Navigation styles */
 nav {
   background-color: rgb(195, 117, 62);
+  padding: 10px;
 }
 
-#cocktail-gif {
-  width: 50px;
+.navbar-brand img {
+  width: 40px;
+  margin-right: 10px;
 }
 
-.card {
-  background-color: #66cdaa;
-  width: 300px;
+.navbar-brand span {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
 }
 
-.join-message {
-  color: rgba(51, 117, 222, 0.704);
-  font-size: 38px;
+.navbar-nav li {
+  margin-right: 10px;
 }
 
+.navbar-nav li a {
+  color: #fff;
+}
+
+/* Container styles */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Alert styles */
+.alert {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.alert-success {
+  background-color: #c3f3c3;
+  color: #2d8542;
+}
+
+/* Button styles */
 .btn {
   border-radius: 50px;
+  background-color: #66cdaa;
+  color: #fff;
+  padding: 10px 20px;
+  font-weight: bold;
 }
 
 .btn:hover {
+  background-color: #5cb396;
   cursor: pointer;
+}
+
+/* Li button styles */
+.navbar-nav li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.navbar-nav li a {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: #66cdaa;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-nav li a:hover {
+  background-color: #5cb396;
+  cursor: pointer;
+}
+
+/* Profile card styles */
+.profile-card {
+  width: 300px;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card h2 {
+  color: #66cdaa;
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.profile-card p {
+  margin-bottom: 0;
+}
+
+/* Search input styles */
+#search.form-control {
+  border-radius: 50px;
+}
+
+#search.form-control:focus {
+  box-shadow: 0 0 0 2px #66cdaa;
 }
 
 #search.form-control + .btn {
   position: absolute;
-  right: 9px;
-  top: 2px;
-  bottom: 4px;
-  z-index: 1;
-  padding: 0;
-  color: green;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.container {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 600px;
-}
-.card-img-top {
-  display: block;
-  width: auto;
-  max-height: 100%;
-  margin: auto;
-}
-.card {
-  max-width: 500px;
-  margin: 0 auto;
-  float: none;
-  margin-bottom: 10px;
+/* Footer styles */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f8f8;
+  color: #666;
+  font-size: 12px;
 }
 
-.profile-card {
-  width: 300px;
-}
+/* Responsive styles */
+@media (max-width: 576px) {
+  .navbar-brand img {
+    width: 30px;
+  }
 
-#fa-whiskey-glass {
-  color: rgba(231, 231, 4, 0.998);
-}
+  .navbar-brand span {
+    font-size: 16px;
+  }
 
-.display-2 {
-  color: rgba(249, 249, 116, 0.978) w;
-}
-
-@media (max-width: 468px) {
-  nav form.navbar-form {
-    display: none;
+  .container {
+    max-width: 100%;
+    padding: 10px;
   }
 }

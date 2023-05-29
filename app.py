@@ -42,22 +42,25 @@ def add_user_to_g():
         g.user = None
 
 # ================== Home Page ========================
+
+
 @app.route('/')
 def homepage():
 
-    if g.user:    
+    if g.user:
         favorites = [favorite.id for favorite in g.user.favorites]
         return render_template('home.html', favorites=favorites)
     else:
         return render_template('home-anon.html')
 
 
-# ================== User signup/login/logout ===================# 
+# ================== User signup/login/logout ===================#
 
 def do_login(user):
     """Log in user."""
 
     session[CURR_USER_KEY] = user.id
+
 
 def do_logout():
     """Logout user."""
@@ -65,10 +68,6 @@ def do_logout():
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
 
-# def autocomplete():
-#     url = f"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={drink_id}"
-#     response = requests.get(url)
-#     response.
 
 def save_drink(drink_id):
     url = f"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={drink_id}"
@@ -80,7 +79,6 @@ def save_drink(drink_id):
     drink_obj = drinks_json[0]
     drink_name = drink_obj['strDrink']
 
-     
     # converts obj to json/string
     drink = Cocktail.add_drink(drink_id, drink_name)
 
@@ -96,19 +94,21 @@ def save_drink(drink_id):
 
         if drink_obj[f'strMeasure{i}'] != None:
             measures.append(drink_obj[f'strMeasure{i}'])
-    
+
     for index, val in enumerate(ingredients):
         if index >= len(measures):
             combined.append(f'{ingredients[index]}')
         else:
             combined.append(f'{measures[index]} {ingredients[index]}')
-    
+
     for i in combined:
-        drink_and_measurement = Drink_and_Measurement(drink_and_measurement=i, drink_id=drink.id)
+        drink_and_measurement = Drink_and_Measurement(
+            drink_and_measurement=i, drink_id=drink.id)
         db.session.add(drink_and_measurement)
         db.session.commit()
 
     return drink
+
 
 def dropdown(drinks):
     url = f"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={drinks}"
@@ -122,7 +122,7 @@ def dropdown(drinks):
     print(drink_name)
 
     return render_template('/search.html')
-    
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -140,14 +140,14 @@ def signup():
                 first_name=form.firstname.data,
                 last_name=form.lastname.data,
                 email=form.email.data,
-                bio = ""
+                bio=""
             )
             db.session.commit()
 
         except IntegrityError:
             flash('Username already taken, please try another one.', 'danger')
             return render_template('/signup.html', form=form, user=user)
-        
+
         do_login(user)
 
         return redirect('/')
@@ -156,7 +156,7 @@ def signup():
         return render_template('/signup.html', form=form)
 
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     """Handle user login."""
 
@@ -175,6 +175,7 @@ def login():
 
     return render_template('/login.html', form=form)
 
+
 @app.route('/logout')
 def logout():
     """Handle logout of user."""
@@ -183,7 +184,8 @@ def logout():
     flash("You logged out successfully!", 'success')
     return redirect("/login")
 
-@app.route('/edit-profile/<int:user>', methods=['GET','POST'])
+
+@app.route('/edit-profile/<int:user>', methods=['GET', 'POST'])
 def edit_profile(user):
 
     form = EditProfileForm()
@@ -192,15 +194,6 @@ def edit_profile(user):
     if not g.user.id == user_id:
         flash('You are not authorized to view this content.', 'danger')
         return redirect('/')
-
-    # update = User.query.get_or_404(user)
-    # print(user)
-    # update.username = request.form['Username']
-    # update.first_name = request.form['First Name']
-    # update.last_name = request.form['Last Name']
-    # update.email = request.form['Email']
-    # update.bio = request.form['Bio']
-
 
     if form.validate_on_submit():
         try:
@@ -218,7 +211,6 @@ def edit_profile(user):
 
         except IntegrityError:
             flash('Failed to update. Please try again.', 'danger')
-   
 
     return render_template('edit-profile.html', user=user, form=form, user_id=user_id)
 
@@ -226,15 +218,14 @@ def edit_profile(user):
 @app.route('/profile/<int:user>', methods=['GET'])
 def show_profile(user):
     if not g.user:
-            return redirect('/')
+        return redirect('/')
 
     user = g.user.id
 
     drink_names = Cocktail.query.filter('drink_name')
 
-
     return render_template('profile.html', user=user, drink_names=drink_names)
-    
+
 # ==================Drink Searches==================
 
 
@@ -251,45 +242,44 @@ def search():
     if request.method == 'POST':
         drinks = cocktail_api().search(form.search.data)
         return redirect(f'search/{form.search.data}')
-        
+
     return render_template('search.html', form=form, drinks=drinks)
+
 
 @app.route('/search/<drink>', methods=['GET'])
 def show_drink(drink):
-    
+
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
     form = SearchDrink()
-      
+
     converter = cocktail_api()
     drink_response = converter.search(drink)
     drinks = converter.convert(drink_response)
     cocktail = drinks
 
     for drink in drinks:
-        rows = Favorite.query.join(Cocktail, Favorite.drink_id == Cocktail.id).add_columns(Cocktail.drink_name).filter(Favorite.user_id == g.user.id).filter(Cocktail.drink_id == drink['id']).all()
+        rows = Favorite.query.join(Cocktail, Favorite.drink_id == Cocktail.id).add_columns(
+            Cocktail.drink_name).filter(Favorite.user_id == g.user.id).filter(Cocktail.drink_id == drink['id']).all()
 
         drink['is_favorite'] = len(rows) > 0
 
     if form.validate_on_submit():
         try:
-            cocktail = drinks 
+            cocktail = drinks
             Cocktail.add_drink(
-            drink_id = drinks.id,
-            user_id = g.user.index,
-            drink_name=drinks.name            )
+                drink_id=drinks.id,
+                user_id=g.user.index,
+                drink_name=drinks.name)
             db.session.commit()
-
 
         except IntegrityError:
             flash('Cocktail not found. Please try another one.', 'danger')
             return render_template('/search.html', form=form)
-        
-    
-    return render_template('search.html', drinks=drinks, converter=converter, cocktail=cocktail)
 
+    return render_template('search.html', drinks=drinks, converter=converter, cocktail=cocktail)
 
 
 @app.route('/search/<int:drink_id>/favorite', methods=['POST'])
@@ -298,9 +288,10 @@ def add_favorite(drink_id):
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    save_drink(drink_id)   
+    save_drink(drink_id)
 
-    rows = Favorite.query.join(Cocktail, Favorite.drink_id == Cocktail.id).add_columns(Cocktail.drink_name).filter(Favorite.user_id == g.user.id).filter(Cocktail.drink_id == drink_id).all()
+    rows = Favorite.query.join(Cocktail, Favorite.drink_id == Cocktail.id).add_columns(
+        Cocktail.drink_name).filter(Favorite.user_id == g.user.id).filter(Cocktail.drink_id == drink_id).all()
 
     if len(rows) > 0:
         drink_name = rows[0][1]
@@ -309,8 +300,7 @@ def add_favorite(drink_id):
 
     user_id = g.user.id
     drink = drink_id
-    
-    
+
     Favorite.save_drink(user_id, drink)
     flash("Added Favorite.", "success")
 
